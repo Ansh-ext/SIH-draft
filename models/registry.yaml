@@ -1,0 +1,21 @@
+models:
+  - model_id: qwen2.5-coder-7b
+    ollama_tag: "qwen2.5-coder:7b"
+    task_types: ["coding"]
+    vram_mb: 4700   # already on disk
+    quantization: "Q4_K_M"
+    benchmark_score: 0.0
+
+  - model_id: granite4-1b
+    ollama_tag: "granite4:1b"
+    task_types: ["reasoning", "judge", "conversational"]   # doubles as router judge & conversational - fast + already on disk
+    vram_mb: 3300   # already on disk
+    quantization: "Q4_K_M"
+    benchmark_score: 0.0
+
+  - model_id: moondream
+    ollama_tag: "moondream:latest"
+    task_types: ["vision"]
+    vram_mb: 1700   # pull with: ollama pull moondream
+    quantization: "Q4_K_M"
+    benchmark_score: 0.0

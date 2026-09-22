@@ -1,0 +1,20 @@
+SOP-14: Pressure Relief Valve Inspection and Approval Procedure
+
+Scope: This procedure applies to all pressure relief valves (PRVs) installed
+on process vessels and piping in the crude distillation and hydrocracking
+units.
+
+Inspection frequency: PRVs must be inspected every 12 months, or every 6
+months for valves in hydrogen or high-H2S service.
+
+Approval note requirements: Any inspection report noting valve seat leakage,
+corrosion on the valve body, or a set-pressure deviation greater than 3%
+from nameplate rating must be escalated to the Rotating Equipment section
+head for review before the valve is returned to service. The approval note
+must include: valve tag number, last inspection date, observed deviation,
+inspector's recommendation, and section head sign-off.
+
+Deviations exceeding 5% require the valve to be pulled and bench-tested
+before any approval note can be issued.
+
+Reference: API 527, API 576.

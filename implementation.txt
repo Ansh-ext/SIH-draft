@@ -1,0 +1,28 @@
+Quick context check before the plan: Antigravity is Google's agent-first IDE (VS Code fork, released Nov 2025, now on 2.0) — it has an Editor view for hands-on work and a Manager view where you spawn and orchestrate multiple agents working in parallel across your project, plus a Planning mode that drafts an implementation plan before executing. That parallel-agent model actually fits what's left of your build well, since the remaining pieces (agent loop, sandbox, backend, frontend, network monitor) are mostly independent once the interfaces are fixed.
+
+One thing to flag before you start: Antigravity's model runs in Google's cloud — your code is sent there while an agent is planning or coding. That's fine for writing the code; it has nothing to do with your deployed workbench's air-gap requirement, which is about the running system's network behavior, not which tool you personally used to write it. Just keep using the fictional sample SOPs you already created rather than pasting any real MRPL data into Antigravity's prompts during development.
+
+1
+Open the existing project, not a blank one
+Install Antigravity and open the mrpl-workbench folder directly — not a fresh project. This matters: Antigravity indexes the codebase for context, so every agent you spawn already sees rag/, models/, and router/ as finished, working modules with real function signatures (retrieve(), get_candidates(), route()) instead of guessing at an API that doesn't exist yet.
+2
+Write a project rules file before spawning anything
+Antigravity supports saved rules/workflows triggered with '/'. Write one that encodes the constraints that must survive every agent's output: no outbound network calls anywhere in the deployed code, Ollama-only model serving with the exact registry.yaml tags, the lru_cache(maxsize=1) singleton pattern for anything expensive to load, and the existing folder structure. Every agent you spawn afterward inherits this instead of you repeating it per-agent.
+3
+Draft the remaining build in Planning mode first
+Before touching Manager view, use Planning mode to have it draft an implementation plan for what's left: agent loop, Docker sandbox, FastAPI backend, Streamlit frontend, network monitor. Check this plan against the planner → registry → confidence-gate architecture we already designed — don't accept it blind. This is the same discipline as reviewing any junior engineer's plan before they start coding.
+4
+Switch to Manager view, spawn the independent pieces first
+The Docker sandbox and the network-monitor script depend on nothing else you haven't built — spawn one agent per module here in parallel. This is where Antigravity's 'multiple agents working asynchronously across workspaces' actually pays off: these two can be built and tested completely independently of everything else.
+5
+Fix the tool interface, then spawn the agent-loop agent
+Before spawning the agent that builds agent/ (planner, subtask DAG, confidence gate), nail down the tool function signature — run_tool(name, params) — that it will call. Once that contract is fixed, this agent doesn't need to wait for the sandbox agent to literally finish; it can build against the interface and you wire the real implementation in later.
+6
+Spawn the backend agent last among these three
+backend/main.py is glue — it needs the agent loop's actual entrypoint to exist first, even as a stub. Spawn this one once the agent-loop agent has at least a callable function signature in place, so it's wiring to something real rather than a guess.
+7
+Review every agent's Artifacts before merging anything
+Antigravity generates task lists, screenshots, and terminal recordings per agent so you can verify without reading every diff line by line. Use these deliberately: check the sandbox agent's terminal recording actually shows --network none and a timeout firing, check the agent-loop agent's task list actually includes the confidence check and retry, not just a plan → act loop with no verification step. Don't merge on trust.
+8
+Frontend last, then one integration pass
+Build frontend/app.py once the backend's real endpoints exist, not against a guessed API. Finish with one agent (or you, in Editor view) doing a single integration pass — running the equivalent of demo.py end to end through the full stack, the same way you verified the router+RAG core earlier, to catch interface mismatches between agents built in isolation

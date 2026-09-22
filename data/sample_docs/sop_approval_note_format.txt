@@ -1,0 +1,16 @@
+SOP-02: Standard Approval Note Format
+
+All approval notes generated from inspection findings must follow this
+structure:
+
+1. Header: equipment tag, unit, date of inspection, inspector name.
+2. Findings summary: 2-4 sentences describing what was observed.
+3. Reference SOPs: list every SOP consulted, with section numbers.
+4. Deviation assessment: state whether the finding is within tolerance,
+   requires monitoring, or requires escalation.
+5. Recommendation: one clear action - return to service, monitor, escalate,
+   or pull for bench testing.
+6. Sign-off block: preparer, reviewer, and approver fields.
+
+Approval notes are stored in the department's SOP-compliant archive and
+must be retrievable by equipment tag number for at least 7 years.
