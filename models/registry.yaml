@@ -19,3 +19,5 @@ models:
     vram_mb: 1700   # pull with: ollama pull moondream
     quantization: "Q4_K_M"
     benchmark_score: 0.0
+
+    
